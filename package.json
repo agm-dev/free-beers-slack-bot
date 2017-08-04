@@ -1,0 +1,28 @@
+{
+  "name": "frebeersbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "prod": "node ./index.js",
+    "watch": "nodemon ./index.js",
+    "start": "\"npm run watch\"",
+    "test": "jest"
+  },
+  "keywords": [
+    "bot",
+    "free",
+    "beers",
+    "slack"
+  ],
+  "author": "Adrián Gonzalo",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "slackbots": "^1.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0",
+    "standard": "^10.0.2"
+  }
+}
