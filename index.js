@@ -1,4 +1,6 @@
 const SlackBot = require('slackbots')
+// const promisify = require('es6-promisify')
+const FBRank = require('./FBRankModel')
 
 require('dotenv').config()
 
@@ -33,6 +35,7 @@ bot.on('start', async () => {
     const users = await bot.getUsers()
     users.members.map(user => {
       usersData[user.id] = {
+        id: user.id,
         name: user.name,
         realName: user.real_name
       }
@@ -42,17 +45,27 @@ bot.on('start', async () => {
   }
 })
 
-bot.on('message', async data => {
+bot.on('message', data => {
   if (
     data && data.user &&
     data.type === 'message' &&
     usersData[data.user] !== 'undefined' &&
-    usersData[data.user].name !== process.env.BOT_NAME &&
-    fbRegex.test(data.text.toString())
+    usersData[data.user].name !== process.env.BOT_NAME
   ) {
-    console.log('free beer!')
-    // record it to database:
-    const response = setFreeBeerResponse(usersData[data.user].realName)
-    bot.postMessageToChannel(channel, response, params)
+    if (fbRegex.test(data.text.toString())) {
+      console.log('free beer!')
+      // record it to database:
+      FBRank.addFreeBeer(usersData[data.user], () => {
+        const response = setFreeBeerResponse(usersData[data.user].realName)
+        bot.postMessageToChannel(channel, response, params)
+      })
+    } else if (data.text.toString() === 'FBRanking') {
+      console.log('Retrieving ranking...')
+      FBRank.getRanking(s => {
+        bot.postMessageToChannel(channel, s, params)
+      })
+    }
   }
 })
+
+console.log('Running!')
