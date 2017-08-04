@@ -6,6 +6,8 @@ You can print a ranking of top free beered people by writing `FBRanking` on a ch
 
 You will need to create a bot on your Slack team and run this nodejs script on a server.
 
+To deploy this, you know... `git clone [this repo]`, `npm install`, `npm run prod` or `node index.js`
+
 To configure the bot you will require a `.env` file with next params:
 
 ```
